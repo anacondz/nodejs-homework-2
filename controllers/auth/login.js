@@ -12,8 +12,11 @@ const login = async (req, res, next) => {
     //   console.log(user);
     const passwordCompare = bcrypt.compareSync(password, user.password);
 
-    if (!user || !passwordCompare) {
-      throw createError(401, "Email or password is wrong");
+    if (!user || !user.verify || !passwordCompare) {
+      throw createError(
+        401,
+        "Email is wrong or not verify or password is wrong"
+      );
     }
     // create payload for token
     const payload = {
